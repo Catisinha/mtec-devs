@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MtecDevs.Data;
+using MtecDevs.Models;
 
 namespace MtecDevs.Data;
 
