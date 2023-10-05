@@ -56,8 +56,9 @@ public class AppDbSeed
         #endregion
 
         #region Popular Dados de Usuário
+        //Lista de IdentityUser
         List<IdentityUser> users = new() {
-            new IndentityUser() {
+            new IdentityUser() {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "Catisinha",
                 NormalizedUserName = "CATISINHA",
@@ -67,7 +68,35 @@ public class AppDbSeed
                 LockoutEnabled = true 
             }
         };
+        // Criptografar a senha do IdentityUser
+        foreach (var user in users)
+        {
+            PasswordHasher<IdentityUser> password = new();
+            user.PasswordHash = password.HashPassword(user, "#Tonalizanterosa123");
+        }
         builder.Entity<IdentityUser>().HasData(users);
+
+        // Criar o usuário
+        List<Usuario> usuarios = new(){
+            new Usuario(){
+                UserId = users[0].Id,
+                Nome = "Catisinha Gomes dos Santos",
+                DataNascimento = DateTime.Parse("01/01/2001"),
+                Foto = "/img/usuarios/lua.jpg",
+                TipoDevId = 4
+            }
+        };
+        builder.Entity<Usuario>().HasData(usuarios);
+
+        // Definir o perfil do usuário criado
+        List<IdentityUserRole<string>> userRoles = new() {
+            new IdentityUserRole<string>() {
+                UserId = users[0].Id,
+                RoleId = perfis[0].Id
+            }            
+        };
+        builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+        
         #endregion
     }
 }
