@@ -26,6 +26,6 @@ public class Usuario
     [Display(Name = "Tipo de Desenvolvedor")]
     [Required(ErrorMessage = "Informe o Tipo de Desenvolvedor")]
     public byte TipoDevId { get; set; } 
-    [ForeignKey("TipoDev")]
+    [ForeignKey("TipoDevId")]
     public TipoDev TipoDev{ get; set; }
 }
