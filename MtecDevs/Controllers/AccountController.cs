@@ -38,6 +38,23 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             //Verifico o login
+            string userName = login.Email;
+            if (IsValidEmail(login.Email))
+            {
+                var user = await _userManager.FindByEmailAsync(login.Email);
+                if (user != null)
+                {
+                    userName = user.UserName;
+                }
+            }
+            var result = await _signInManager.PasswordSignInAsync(
+                userName, login.Senha, login.Lembrar, lockoutOnFailure: true
+            );
+
+            if (result.Succeeded)
+            {
+                ,
+            }
 
         }
         return View(login);
