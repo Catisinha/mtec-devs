@@ -53,13 +53,22 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
-                ,
+                _logger.LogInformation($"Usuário {login.Email} acessou o sistema");
+                return LocalRedirect(login.UrlRetorno);
             }
+
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning($"Usuário {login.Email} foi bloqueado");
+                return RedirectToAction("Lockout");
+            }
+
+            ModelState.AddModelError(string.Empty, "Usuário e/ou Senha Inválidos!!");
 
         }
         return View(login);
     }
-
+    
    
     private static bool IsValidEmail(string email)
     {
